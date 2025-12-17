@@ -60,25 +60,92 @@ struct Cell {
 struct LinkedList {
       Cell* head;
 
+      LinkedList() : head(nullptr) {}
+
       bool is_empty(){
 
         return head==nullptr;
       }
 
-      void push_front(int v) {
+      ~LinkedList(){
+        while (head!=nullptr){
+          Cell* temp = head;
+          head = head->p;
+          delete temp;
+        };
+
+      }
+
+      void push_front(int value) {
         Cell* newCell = new Cell;
-        newCell->v = v;
+        newCell->v = value;
         newCell->p = head;
         head = newCell;
     }
 
-    void print() const {
+    void print(){
         Cell* current = head;
         while (current != nullptr) {
             std::cout << current->v << " ";
             current = current->p;
         }
         std::cout << std::endl;
+    }
+
+
+    bool find(int value){
+
+      Cell* search = head;
+      while (search != nullptr){
+        if (search->v == value){
+          std::cout << "entier trouvé !"<< std::endl;
+          return true;
+        }
+        else{
+
+          search = search ->p;
+        }
+      
+      }
+      std::cout << "n'est pas dans la liste !"<< std::endl;
+      return false;
+
+    }
+
+    void remove(int value){
+
+
+      if (head == nullptr){
+        return;
+      }
+
+      if (head->v==value){
+        Cell* suppr = head;
+        head = head->p;
+        delete suppr;
+        return;
+
+      }
+
+
+      Cell* a = head;
+      Cell* b = head;
+      while(a->p != nullptr){
+
+        a= a->p;
+        if (a->v == value){
+          b->p=a->p;
+          delete a;
+          return;
+        }
+        b = b->p;
+      }
+      std::cout << value << " n'est pas dans la liste !" << std::endl;
+
+      return;
+
+
+
     }
 
 
